@@ -21,7 +21,7 @@ public class CheckForms {
 
 
         @Test
-        void TestForm() {
+        void testForm() {
 
            open("/automation-practice-form");
             $("#firstName").setValue("Joe");
@@ -40,9 +40,9 @@ public class CheckForms {
             $("#uploadPicture").uploadFromClasspath("screen.png");
             $("#currentAddress").setValue("current Address");
             $(byText("Select State")).scrollTo();
-            $(byText("Select State")).click();
+            $("#stateCity-wrapper").click();
             $(byText("Haryana")).click();
-            $(byText("Select City")).click();
+            $("#city").click();
             $(byText("Karnal")).click();
             $("#submit").click();
 
