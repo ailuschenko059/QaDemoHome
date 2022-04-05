@@ -46,7 +46,6 @@ public class CheckForms {
             $(byText("Karnal")).click();
             $("#submit").click();
 
-
             //Asserts
             $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
             $(".table-responsive").shouldHave(
