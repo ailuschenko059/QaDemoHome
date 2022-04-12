@@ -58,6 +58,7 @@ public class CheckForms extends TestBase {
          .setAddress(address)
          .setStateAndCity(state, city)
          .submitForm();
+
  resultPage.checkTitle("Thanks for submitting the form")
          .checkResult("Student Name", expFullName)
          .checkResult("Student Email", email)
