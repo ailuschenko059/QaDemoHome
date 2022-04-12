@@ -1,66 +1,80 @@
 import static com.codeborne.selenide.Selenide.open;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
+import enums.Generator;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import pageObject.RegistrationPage;
+import pageObject.ResultPage;
+import testBase.TestBase;
+
+import java.time.LocalDate;
+
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
+import static java.lang.String.format;
 
 
-public class CheckForms {
+public class CheckForms extends TestBase {
+ RegistrationPage registrationPage = new RegistrationPage();
+ ResultPage resultPage = new ResultPage();
+ Generator gen = new Generator();
+
+ String firstName = gen.getFirstName();
+ String lastName = gen.getLastName();
+ String email = gen.getEmail();
+ String gender = gen.getGender();
+ String phoneNumber = gen.getPhoneNumber();
+ LocalDate birthDate = gen.getDate();
+ String subject = gen.getSubject();
+ String hobby = gen.getHobby();
+ String image = "screen.png";
+ String address = gen.getAddress();
+ String state = gen.getState();
+ String city = gen.getCity(state);
+
+ String expFullName = format("%s %s", firstName, lastName);
+ String expMonth = StringUtils.capitalize(birthDate.getMonth().toString().toLowerCase()); //Capitalized month name
+ String expDate = format("%s %s,%s", birthDate.getDayOfMonth(), expMonth, birthDate.getYear());
+ String expLocation = format("%s %s", state, city);
+ String expFileName = image.substring(4);
 
 
-    @BeforeAll
-    static void setUp() {
-        Configuration.holdBrowserOpen = true;
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
-        //onfiguration.browserSize = "2560x1600";
-    }
+
+ @Test
+ void testForm() {
+ registrationPage.openPage()
+         .setFirstName(firstName)
+         .setLastName(lastName)
+         .setEmail(email)
+         .setGender(gender)
+         .setPhoneNumber(phoneNumber)
+         .setBirthDate(birthDate)
+         .setSubject(subject)
+         .setHobby(hobby)
+         .uploadPicture(image)
+         .setAddress(address)
+         .setStateAndCity(state, city)
+         .submitForm();
+ resultPage.checkTitle("Thanks for submitting the form")
+         .checkResult("Student Name", expFullName)
+         .checkResult("Student Email", email)
+         .checkResult("Gender", gender)
+         .checkResult("Mobile", phoneNumber)
+         .checkResult("Date of Birth", expDate)
+         .checkResult("Subjects", subject)
+         .checkResult("Hobbies", hobby)
+         .checkResult("Picture", expFileName)
+         .checkResult("Address", address)
+         .checkResult("State and City", expLocation);
 
 
-        @Test
-        void testForm() {
 
-           open("/automation-practice-form");
-            $("#firstName").setValue("Joe");
-            $("#lastName").setValue("Biden");
-            $("#userEmail").setValue("JBiden@mail.ru");
-            $("#genterWrapper").$(byText("Male")).click();
-            $("#userNumber").setValue("5554547788");
-            $("#dateOfBirthInput").setValue("20 Jan 1942");
-            $(".react-datepicker__input-container").click();
-            $(".react-datepicker__month-select").selectOption("January");
-            $(".react-datepicker__year-select").selectOption("1942");
-            $(".react-datepicker__day--020").click();
-           // $("#subjectsInput").click();
-            $("#subjectsInput").setValue("text check form");
-            $("#hobbiesWrapper").$(byText("Reading")).click();
-            $("#uploadPicture").uploadFromClasspath("screen.png");
-            $("#currentAddress").setValue("current Address");
-            $(byText("Select State")).scrollTo();
-            $("#stateCity-wrapper").click();
-            $(byText("Haryana")).click();
-            $("#city").click();
-            $(byText("Karnal")).click();
-            $("#submit").click();
+ }
 
-            //Asserts
-            $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
-            $(".table-responsive").shouldHave(
-                    text("Joe Biden"),
-                    text("JBiden@mail.ru"),
-                    text("Male"),
-                    text("5554547788"),
-                    text("20 January,1942"),
-               //   text("text check form"),
-                    text("Reading"),
-                    text("screen.png"),
-                    text("current Address"),
-                    text("Haryana Karnal"));
 
-        }
 
 }
 
