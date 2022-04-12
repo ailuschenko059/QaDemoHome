@@ -1,42 +1,35 @@
-import static com.codeborne.selenide.Selenide.open;
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
+
 import enums.Generator;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import pageObject.RegistrationPage;
 import pageObject.ResultPage;
 import testBase.TestBase;
-
 import java.time.LocalDate;
-
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
 import static java.lang.String.format;
 
 
 public class CheckForms extends TestBase {
+
  RegistrationPage registrationPage = new RegistrationPage();
  ResultPage resultPage = new ResultPage();
- Generator gen = new Generator();
+ Generator generator = new Generator();
 
- String firstName = gen.getFirstName();
- String lastName = gen.getLastName();
- String email = gen.getEmail();
- String gender = gen.getGender();
- String phoneNumber = gen.getPhoneNumber();
- LocalDate birthDate = gen.getDate();
- String subject = gen.getSubject();
- String hobby = gen.getHobby();
+ String firstName = generator.getFirstName();
+ String lastName = generator.getLastName();
+ String email = generator.getEmail();
+ String gender = generator.getGender();
+ String phoneNumber = generator.getPhoneNumber();
+ LocalDate birthDate = generator.getDate();
+ String subject = generator.getSubject();
+ String hobby = generator.getHobby();
  String image = "screen.png";
- String address = gen.getAddress();
- String state = gen.getState();
- String city = gen.getCity(state);
+ String address = generator.getAddress();
+ String state = generator.getState();
+ String city = generator.getCity(state);
 
  String expFullName = format("%s %s", firstName, lastName);
- String expMonth = StringUtils.capitalize(birthDate.getMonth().toString().toLowerCase()); //Capitalized month name
+ String expMonth = StringUtils.capitalize(birthDate.getMonth().toString().toLowerCase());
  String expDate = format("%s %s,%s", birthDate.getDayOfMonth(), expMonth, birthDate.getYear());
  String expLocation = format("%s %s", state, city);
  String expFileName = image.substring(4);
