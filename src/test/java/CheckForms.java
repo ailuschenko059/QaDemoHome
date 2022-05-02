@@ -1,6 +1,7 @@
 
 import enums.Generator;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pageObject.RegistrationPage;
 import pageObject.ResultPage;
@@ -8,7 +9,7 @@ import testBase.TestBase;
 import java.time.LocalDate;
 import static java.lang.String.format;
 
-
+@DisplayName("Проверка формы")
 public class CheckForms extends TestBase {
 
  RegistrationPage registrationPage = new RegistrationPage();
@@ -37,6 +38,7 @@ public class CheckForms extends TestBase {
 
 
  @Test
+ @DisplayName("Заполнение формы и проверка данных")
  void testForm() {
  registrationPage.openPage()
          .setFirstName(firstName)
